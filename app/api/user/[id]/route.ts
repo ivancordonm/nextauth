@@ -18,9 +18,6 @@ export async function GET(
     }
   })
 
-  console.log('id', params.id)
-  console.log(userPosts)
-
   if (!userPosts) {
     return new Response(JSON.stringify(null), {
       status: 404,

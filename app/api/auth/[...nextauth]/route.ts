@@ -6,7 +6,10 @@ const handler = NextAuth({
       name: 'Credentials',
 
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
+        username: {
+          label: 'Username',
+          type: 'text'
+        },
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials, req) {
@@ -27,7 +30,24 @@ const handler = NextAuth({
         return null
       }
     })
-  ]
+  ],
+  callbacks: {
+    async jwt(params) {
+      // console.log('*************')
+      // console.log(params)
+      // console.log('*************')
+      return { ...params.token, ...params.user }
+    },
+
+    async session({ session, token }) {
+      // console.log('*************')
+      // console.log('session')
+      // console.log(session)
+      // console.log('*************')
+      session.user = token as any
+      return session
+    }
+  }
 })
 
 export { handler as GET, handler as POST }
